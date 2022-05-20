@@ -40,8 +40,8 @@ while (true)
     Console.WriteLine(@$"The ""{inputText}"" has the domain ""{emailDomain}"" and now we will lookup DNS MX records...");
 
 
-
-    var dnsServersList = new List<string>("8.8.8.8, 8.8.4.4".Split(','));
+    // Comma-separated DNS server list (IPs). Google public DNS servers ("8.8.8.8" or "8.8.4.4.") are used in this example for quering MX records. You can change this DNS servers to your prefered DNS servers.
+    var dnsServersList = new List<string>("8.8.8.8,8.8.4.4".Split(',')); 
 
     var dnsLite = new DnsLib.DnsLite();
     dnsLite.setDnsServers(dnsServersList);
@@ -52,11 +52,10 @@ while (true)
         Console.WriteLine(@$"The domain ""{emailDomain}"" has no MX DNS records!");
     }
 
-
-
+    // Print all mail servers found and its preferences (priorities)
     foreach (var dnsMxRecord in dnsMxRecords)
     {
-        Console.WriteLine($"MX Server: {dnsMxRecord}");
+        Console.WriteLine($"DNS server [{dnsMxRecord.dnsServer}] answer: {dnsMxRecord}");
     }
 
     // Asks the user if want to run again
