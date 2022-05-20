@@ -3,7 +3,10 @@
 ![Project Cover](./img/project-cover.png "C# native DNS MX Lookup tool")
  
 # Context
-Sometimes we nwws to check if an email has a valid domain and if this domain has MX records well configured.
+Sometimes we need to check if an email has a valid domain and if this domain has MX records well configured.
+
+This can be used for many proposals such as email validations before form submission, avoiding bounce rates before sending an email to AWS SES, SendGrid or another email provider, cleaning out old database of CRM with primary validation etc.
+
 
 # What does this application do?
 - The app asks what email do you want to verify MX records
@@ -104,5 +107,7 @@ docker rm --force dotnet-dns-mx-lookup
 1. Try to implement a email validation function to return true if an email has at least one valid server domain
 2. Try to sort DNS MX servers list by server preference before print it on console.
 3. Try to check if each DNS server IP is valid and call its TCP 25, 587 or 465 ports (common SMTP ports). Tip: Use native dotnet DNS A record query to find server's IP (IPv4 or IPv6) <https://docs.microsoft.com/en-us/dotnet/api/system.net.dns?view=net-6.0>
+4. Inspect the code, increase the DNS query timeout and force a network disconnection between one DNS server lookup (unplug your ethernet card and wi-fi) to see what happens. Try to implement an error handling for timeout error. You can simulate primary DNS failing and secondary DNS returning the query (after reconnect your network).
 4. Inspect the Dockerfile content to see how docker pulls imagens from images's hub
+5. Try to create a WebAPI and implement an endpoint to check if an email is valid (https://my-api-server.com/api/emailcheck?email=user@gmaaaaail.com). You can use this in your website to prevent fake emails (with invalid domains) to contact you by form submmiting.
 
