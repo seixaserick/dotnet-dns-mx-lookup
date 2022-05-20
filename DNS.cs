@@ -18,10 +18,11 @@ namespace DnsLib
     {
         public int preference = -1;
         public string? mailServer = null;
-        
+        public string? dnsServer = null;
+
         public override string ToString()
         {
-            return "Preference: " + preference.ToString().PadLeft(3) + " Mail Server: " + mailServer;
+            return "Preference: " + preference.ToString().PadLeft(3) + " MailServer: " + mailServer;
         }
     }
 
@@ -74,21 +75,31 @@ namespace DnsLib
             //opening the UDP socket at DNS server
             //use UDPClient, if you are still with Beta1
             UdpClient dnsClient = new UdpClient(serverAddress, DNS_PORT);
+            dnsClient.Client.ReceiveTimeout = 5_000; // in milliseconds
 
             //preparing the DNS query packet.
             MakeQuery(getNewId(), host);
 
-            //send the data packet
-            dnsClient.Send(data, data.Length);
 
-            IPEndPoint endpoint = null;
-            //receive the data packet from DNS server
-            data = dnsClient.Receive(ref endpoint);
+            try
+            {
 
-            length = data.Length;
+                //send the data packet
+                dnsClient.Send(data, data.Length);
 
-            //unpack the byte array & makes an array of MXRecord objects.
-            return MakeResponse();
+                IPEndPoint endpoint = null;
+                //receive the data packet from DNS server
+                data = dnsClient.Receive(ref endpoint);
+
+                length = data.Length;
+
+                //unpack the byte array & makes an array of MXRecord objects.
+                return MakeResponse(serverAddress);
+            }
+            catch (Exception ex)
+            {
+                throw new IOException("DNS server timeout (details: " + ex.ToString());
+            }
 
         }
 
@@ -137,7 +148,7 @@ namespace DnsLib
         }
 
         //for unpacking the byte array
-        public List<MXRecord> MakeResponse()
+        public List<MXRecord> MakeResponse(string dnsServerAddress)
         {
 
             List<MXRecord> mxRecords = new();
@@ -185,6 +196,7 @@ namespace DnsLib
 
                 mxRecord.preference = pref;
                 mxRecord.mailServer = name;
+                mxRecord.dnsServer = dnsServerAddress;
 
                 if (mxRecord.mailServer == "localhost")
                 {
