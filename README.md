@@ -1,6 +1,6 @@
 # C# multi-threading console .net6 app running in Docker
 
-![Project Cover](./img/dotnet-csharp-dns-mx-lookup.png "app running")
+![Project Cover](./img/project-cover.png "C# native DNS MX Lookup tool")
  
 # Context
 Sometimes we nwws to check if an email has a valid domain and if this domain has MX records well configured.

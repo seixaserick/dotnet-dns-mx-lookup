@@ -16,20 +16,17 @@ namespace DnsLib
 
     public class MXRecord
     {
-
         public int preference = -1;
         public string? mailServer = null;
-
+        
         public override string ToString()
         {
             return "Preference: " + preference.ToString().PadLeft(3) + " Mail Server: " + mailServer;
         }
-
     }
 
     public class DnsLite
     {
-
         private byte[] data;
         private int position, id, length;
         private string name;
@@ -41,53 +38,39 @@ namespace DnsLib
 
         public DnsLite()
         {
-
             id = DateTime.Now.Millisecond * 60;
             dnsServers = new List<string>();
-
         }
 
         public void setDnsServers(List<string> dnsServers)
         {
-
             this.dnsServers = dnsServers;
-
         }
         public List<MXRecord> GetMXRecords(string host)
         {
-
             List<MXRecord> mxRecords = new();
-
             for (int i = 0; i < dnsServers.Count; i++)
             {
-
                 try
                 {
-
                     mxRecords = GetMXRecords(host, (string)dnsServers[i]);
                     break;
-
                 }
                 catch (IOException)
                 {
                     continue;
                 }
-
             }
-
             return mxRecords;
         }
-
         private int getNewId()
         {
-
             //return a new id
             return ++id;
         }
 
         public List<MXRecord> GetMXRecords(string host, string serverAddress)
         {
-
             //opening the UDP socket at DNS server
             //use UDPClient, if you are still with Beta1
             UdpClient dnsClient = new UdpClient(serverAddress, DNS_PORT);
@@ -104,9 +87,8 @@ namespace DnsLib
 
             length = data.Length;
 
-            //un pack the byte array & makes an array of MXRecord objects.
+            //unpack the byte array & makes an array of MXRecord objects.
             return MakeResponse();
-
 
         }
 
