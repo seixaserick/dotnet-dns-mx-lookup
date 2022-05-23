@@ -110,4 +110,5 @@ docker rm --force dotnet-dns-mx-lookup
 4. Inspect the code, increase the DNS query timeout and force a network disconnection between one DNS server lookup (unplug your ethernet card and wi-fi) to see what happens. Try to implement an error handling for timeout error. You can simulate primary DNS failing and secondary DNS returning the query (after reconnect your network).
 4. Inspect the Dockerfile content to see how docker pulls imagens from images's hub
 5. Try to create a WebAPI and implement an endpoint to check if an email is valid (https://my-api-server.com/api/emailcheck?email=user@gmaaaaail.com). You can use this in your website to prevent fake emails (with invalid domains) to contact you by form submmiting.
+6. Try to implement a domain MX records CACHE using native dotnet memory cache or REDIS distributed cache.
 
