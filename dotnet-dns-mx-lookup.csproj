@@ -8,8 +8,5 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DnsSimple" Version="2.0.9" />
-  </ItemGroup>
 
 </Project>
