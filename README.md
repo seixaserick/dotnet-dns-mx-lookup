@@ -1,4 +1,4 @@
-# C# multi-threading console .net6 app running in Docker
+# C# native DNS MX servers Lookup (no dependencies)
 
 ![Project Cover](./img/project-cover.png "C# native DNS MX Lookup tool")
  
